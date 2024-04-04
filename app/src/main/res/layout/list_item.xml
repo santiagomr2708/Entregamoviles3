@@ -35,6 +35,15 @@
             android:text="Teléfono"
             android:textColor="#FFFFFF"/>
 
+        <TextView
+            android:id="@+id/contadorVisitas"
+            android:text="@string/visitas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp">
+        </TextView>
+
+
     </LinearLayout>
 
 </LinearLayout>

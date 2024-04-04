@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     ListView listaPersona;
+    HashMap<String, Integer> visitCountMap = new HashMap<>(); // Contador de visitas
+    String selectedItemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +49,24 @@ public class MainActivity extends AppCompatActivity {
                 "384384384",
         };
 
-        ListAdapter personas = new ListAdapter(MainActivity.this,nombres,telefonos,fotoPerfil,biografias);
+        ListAdapter personas = new ListAdapter(MainActivity.this,nombres,telefonos,fotoPerfil,biografias,visitCountMap);
         listaPersona = (ListView) findViewById(R.id.listaUsuario);
         listaPersona.setAdapter(personas);
 
         listaPersona.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> Lista, View Vista, int Posicion, long Id){
+
+                // Guarda el ID del ítem seleccionado
+                selectedItemID = nombres[Posicion];
+
+                if (selectedItemID != null) {
+                    int visitCount = visitCountMap.getOrDefault(selectedItemID, 0);
+                    visitCountMap.put(selectedItemID, visitCount + 1);
+                }
+
+                // Notifica al adaptador que los datos han cambiado
+                personas.notifyDataSetChanged();
 
                 Intent EnviarInfo = new Intent(MainActivity.this, UserActivity.class)
                         .putExtra("Nombre: ", nombres[Posicion])
